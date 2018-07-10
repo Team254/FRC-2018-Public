@@ -30,9 +30,9 @@ The code is divided into several packages, each responsible for a different aspe
 
 	Instead of working with Ant, we used GradleRIO, which is a powerful Gradle plugin that allows us to build and deploy our code for FRC. It automatically fetches WPILib, CTRE Toolsuite, and other libraries, and is easier to use across different IDEs. 
 
-- Path following with a pure pursuit controller and splines
+- Path following with a nonlinear feedback controller and splines
 
-	To control autonomous driving, the robot utilizes a [pure pursuit controller](src/main/java/com/team254/lib/trajectory/PurePursuitController.java) and drives paths constructed of [quintic Hermite splines](src/main/java/com/team254/lib/spline/QuinticHermiteSpline.java).
+	To control autonomous driving, the robot utilizes a [nonlinear feedback controller](https://github.com/Team254/FRC-2018-Public/blob/master/src/main/java/com/team254/frc2018/planners/DriveMotionPlanner.java#L263) and drives paths constructed of [quintic Hermite splines](src/main/java/com/team254/lib/spline/QuinticHermiteSpline.java).
 
 - Path generation and visualization via Java app
 
