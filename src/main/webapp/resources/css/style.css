@@ -1,0 +1,140 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+#title {
+    font-size: 28px;
+    margin: 20px auto 20px auto;
+    padding: 4px;
+    display: block;
+    border: none;
+    border-bottom: #aaa solid 1px;
+    text-align: center;
+    width: 500px;
+    color: #232323;
+}
+
+#title, #title:focus {
+    outline: none;
+}
+
+#canvases {
+    margin: 0 auto;
+    display: block;
+    position: relative;
+}
+
+#canvases canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+table {
+    width: 828px;
+    margin: 5px auto;
+    border-collapse: collapse;
+    box-shadow: 0 3px 5px rgba(128, 128, 128, 0.4);
+}
+
+thead {
+    background-color: #0070FF;
+    color: white;
+}
+
+thead > tr > th {
+    padding: 8px 0;
+}
+
+tbody:before, tbody:after {
+    content: '';
+    display: block;
+    height: 5px;
+}
+
+td {
+    text-align: center;
+    padding: 3px 0;
+    font-size: 14px;
+}
+
+td > input, td > input:focus {
+    font-size: 14px;
+    padding: 2px;
+    border: none;
+    margin: 2px 0;
+    border-bottom: #AAA solid 1px;
+    text-align: center;
+    width: 50px;
+    outline: none;
+}
+
+.drag-handler {
+    margin-left: 3px;
+    display: block;
+    width: 20px;
+    height: 30px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background: repeating-linear-gradient(
+            45deg,
+            #30A0FF,
+            #30A0FF 2px,
+            #0070FF 2px,
+            #0070FF 4px
+    );
+}
+
+.comments > input, .comments > input:focus {
+    width: 200px;
+}
+
+.enabled > button {
+    background-color: #42BBFF;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.enabled > button:hover {
+    background-color: #42AAFF;
+}
+
+.delete > button {
+    background-color: #FF1900;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.delete > button:hover {
+    background-color: #EE1900;
+}
+
+.buttonContainer {
+    width: 828px;
+    margin: 10px auto;
+}
+
+button {
+    background-color: #0070FF;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.25s
+}
+
+button:hover {
+    background-color: #0062EE;
+}
+
+button:focus {
+    outline: none;
+}
+
+span.checkbox {
+    font-size: 15px;
+    float: right;
+    padding: 3px
+}

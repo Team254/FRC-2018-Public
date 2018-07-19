@@ -17,8 +17,8 @@ public class QuinticHermiteSpline extends Spline {
     private double ax, bx, cx, dx, ex, fx, ay, by, cy, dy, ey, fy;
 
     /**
-     * @param p0  The starting pose of the spline
-     * @param p1  The ending pose of the spline
+     * @param p0 The starting pose of the spline
+     * @param p1 The ending pose of the spline
      */
     public QuinticHermiteSpline(Pose2d p0, Pose2d p1) {
         double scale = 1.2 * p0.getTranslation().distance(p1.getTranslation());

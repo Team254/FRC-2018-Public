@@ -1,21 +1,21 @@
 package com.team254.frc2018.lidar;
 
 import com.team254.frc2018.Constants;
-import com.team254.lib.geometry.Translation2d;
+import com.team254.frc2018.lidar.icp.Point;
 
 import java.util.ArrayList;
 
 /**
  * Holds a single 360 degree scan from the lidar
  */
-public class LidarScan {
-    private ArrayList<Translation2d> points = new ArrayList<>(Constants.kChezyLidarScanSize);
-    private double timestamp;
+class LidarScan {
+    private ArrayList<Point> points = new ArrayList<>(Constants.kChezyLidarScanSize);
+    private double timestamp = 0;
 
     public String toJsonString() {
         String json = "{\"timestamp\": " + timestamp + ", \"scan\": [";
-        for (Translation2d point : points) {
-            json += "{\"x\":" + point.x() + ", \"y\":" + point.y() + "},";
+        for (Point point : points) {
+            json += "{\"x\":" + point.x + ", \"y\":" + point.y + "},";
         }
         json = json.substring(0, json.length() - 1);
         json += "]}";
@@ -24,13 +24,13 @@ public class LidarScan {
 
     public String toString() {
         String s = "";
-        for (Translation2d point : points) {
-            s += "x: " + point.x() + ", y: " + point.y() + "\n";
+        for (Point point : points) {
+            s += "x: " + point.x + ", y: " + point.y + "\n";
         }
         return s;
     }
 
-    public ArrayList<Translation2d> getPoints() {
+    public ArrayList<Point> getPoints() {
         return points;
     }
 
@@ -38,10 +38,10 @@ public class LidarScan {
         return timestamp;
     }
 
-    public void addPoint(LidarPoint point) {
+    public void addPoint(Point point, double time) {
         if (timestamp == 0) {
-            timestamp = point.timestamp;
+            timestamp = time;
         }
-        points.add(point.toCartesian());
+        points.add(point);
     }
 }

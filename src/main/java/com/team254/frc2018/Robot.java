@@ -2,6 +2,8 @@ package com.team254.frc2018;
 
 import com.team254.frc2018.auto.AutoModeBase;
 import com.team254.frc2018.auto.AutoModeExecutor;
+import com.team254.frc2018.lidar.LidarProcessor;
+import com.team254.frc2018.lidar.LidarServer;
 import com.team254.frc2018.loops.Looper;
 import com.team254.frc2018.paths.TrajectoryGenerator;
 import com.team254.frc2018.statemachines.IntakeStateMachine;
@@ -95,6 +97,18 @@ public class Robot extends IterativeRobot {
 
             mSubsystemManager.registerEnabledLoops(mEnabledLooper);
             mSubsystemManager.registerDisabledLoops(mDisabledLooper);
+
+            mEnabledLooper.register(LidarProcessor.getInstance());
+
+            try {
+                SmartDashboard.putString("LIDAR status", "starting");
+                boolean started = LidarServer.getInstance().start();
+                SmartDashboard.putString("LIDAR status", started ? "started" : "failed to start");
+            } catch (Throwable t) {
+                SmartDashboard.putString("LIDAR status", "crashed: " + t);
+                t.printStackTrace();
+                throw t;
+            }
 
             mLED.registerEnabledLoops(mEnabledLooper);
             mLED.registerEnabledLoops(mDisabledLooper);

@@ -1,10 +1,12 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
         classpath 'gov.nist.math:jama:1.0.3'
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
     }
 }
 
@@ -13,12 +15,16 @@ plugins {
     id "eclipse"
     id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+    id 'war'
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
+
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'com.bmuschko.tomcat'
 
 def TEAM = 254
 def ROBOT_CLASS = "com.team254.frc2018.Robot"
@@ -53,7 +59,22 @@ dependencies {
     compile("gov.nist.math:jama:1.0.3")
     testCompile("org.junit.jupiter:junit-jupiter-api:5.0.3")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.3")
+
+    def tomcatVersion = '7.0.57'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+
+    compile("org.springframework:spring-webmvc:4.3.0.RELEASE")
+    compile("javax.servlet:javax.servlet-api:3.0.1")
+    compile("javax.servlet:jstl:1.2") 
 }
+
+// context where tomcat is deployed, by default localhost:8080/
+tomcatRun.contextPath = '/'
+tomcatRunWar.contextPath = '/'
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib

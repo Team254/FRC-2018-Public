@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TrajectoryGeneratorTest {
-        public static final double kTestEpsilon = 1e-5;
+    public static final double kTestEpsilon = 1e-5;
 
     public void verifyMirroredTrajectories(final TrajectoryGenerator.TrajectorySet.MirroredTrajectory mirrored,
                                            boolean shouldBeReversed) {

@@ -9,7 +9,7 @@ import com.team254.lib.geometry.Translation2d;
  */
 public class CubicHermiteSpline extends Spline {
     private final double ax, bx, cx, dx, ay, by, cy, dy;
-    
+
     public CubicHermiteSpline(Pose2d p0, Pose2d p1) {
         double x0, x1, dx0, dx1, y0, y1, dy0, dy1;
         double scale = 2 * p0.getTranslation().distance(p1.getTranslation());

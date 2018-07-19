@@ -4,25 +4,33 @@ import com.team254.frc2018.Constants;
 import edu.wpi.first.wpilibj.Timer;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Starts the <code>chezy_lidar</code> C++ program, parses its
+ * output, and feeds the LIDAR points to the {@link LidarProcessor}.
+ * <p>
+ * Once started, a separate thread reads the stdout of the
+ * <code>chezy_lidar</code> process and parses the (angle, distance)
+ * values in each line. Each resulting {@link LidarPoint} is passed
+ * to {@link LidarProcessor.addPoint(...)}.
+ */
 public class LidarServer {
     private static LidarServer mInstance = null;
-    private LidarProcessor mLidarProcessor = LidarProcessor.getInstance();
+    private final LidarProcessor mLidarProcessor = LidarProcessor.getInstance();
     private static BufferedReader mBufferedReader;
     private boolean mRunning = false;
     private Thread mThread;
-    private boolean thread_ending = false;
+    private Process mProcess;
+    private boolean mEnding = false;
 
     public static LidarServer getInstance() {
         if (mInstance == null) {
             mInstance = new LidarServer();
         }
         return mInstance;
-    }
-
-    public LidarServer() {
     }
 
     public boolean isLidarConnected() {
@@ -43,8 +51,17 @@ public class LidarServer {
     }
 
     public boolean start() {
-        synchronized (LidarServer.this) {
-            if (!isLidarConnected() || mRunning) {
+        if (!isLidarConnected()) {
+            System.err.println("Cannot start LidarServer: not connected");
+            return false;
+        }
+        synchronized (this) {
+            if (mRunning) {
+                System.err.println("Cannot start LidarServer: already running");
+                return false;
+            }
+            if (mEnding) {
+                System.err.println("Cannot start LidarServer: thread ending");
                 return false;
             }
             mRunning = true;
@@ -52,10 +69,10 @@ public class LidarServer {
 
         System.out.println("Starting lidar");
         try {
-            Process p = new ProcessBuilder().command(Constants.kChezyLidarPath).start();
+            mProcess = new ProcessBuilder().command(Constants.kChezyLidarPath).start();
             mThread = new Thread(new ReaderThread());
             mThread.start();
-            InputStreamReader reader = new InputStreamReader(p.getInputStream());
+            InputStreamReader reader = new InputStreamReader(mProcess.getInputStream());
             mBufferedReader = new BufferedReader(reader);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,39 +82,44 @@ public class LidarServer {
     }
 
     public boolean stop() {
-        synchronized (LidarServer.this) {
+        synchronized (this) {
             if (!mRunning) {
+                System.err.println("Cannot stop LidarServer: not running");
                 return false;
             }
-
-            System.out.print("Stopping Lidar... ");
-
             mRunning = false;
-            thread_ending = true;
+            mEnding = true;
         }
 
-        try {
-            Runtime r = Runtime.getRuntime();
-            r.exec("/usr/bin/killall chezy_lidar");
-        } catch (IOException e) {
-            System.out.println("Error: couldn't kill process");
-            e.printStackTrace();
-            thread_ending = false;
-            return false;
-        }
+        System.out.println("Stopping Lidar...");
 
         try {
+            mProcess.destroyForcibly();
+            mProcess.waitFor();
             mThread.join();
         } catch (InterruptedException e) {
-            System.out.println("Error: Couldn't join thread");
+            System.err.println("Error: Interrupted while stopping lidar");
             e.printStackTrace();
-            thread_ending = false;
+            synchronized (this) {
+                mEnding = false;
+            }
             return false;
         }
-        System.out.println("Stopped");
-        thread_ending = false;
+        System.out.println("Lidar Stopped");
+        synchronized (this) {
+            mEnding = false;
+        }
         return true;
     }
+
+    public synchronized boolean isRunning() {
+        return mRunning;
+    }
+
+    public synchronized boolean isEnding() {
+        return mEnding;
+    }
+
 
     private void handleLine(String line) {
         boolean isNewScan = line.substring(line.length() - 1).equals("s");
@@ -116,28 +138,24 @@ public class LidarServer {
                 double normalizedTs = curFPGATime - (ms_ago / 1000.0f);
                 double angle = Double.parseDouble(parts[1]);
                 double distance = Double.parseDouble(parts[2]);
-                mLidarProcessor.addPoint(new LidarPoint(normalizedTs, angle, distance), isNewScan);
+                if (distance != 0)
+                    mLidarProcessor.addPoint(new LidarPoint(normalizedTs, angle, distance), isNewScan);
             } catch (java.lang.NumberFormatException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public boolean isRunning() {
-        return mRunning;
-    }
-
-    public boolean isEnding() {
-        return thread_ending;
-    }
-
     private class ReaderThread implements Runnable {
         @Override
         public void run() {
-            while (mRunning) {
-                String line;
+            while (isRunning()) {
                 try {
-                    while (mRunning && mBufferedReader.ready() && (line = mBufferedReader.readLine()) != null) {
+                    if (mBufferedReader.ready()) {
+                        String line = mBufferedReader.readLine();
+                        if (line == null) { // EOF
+                            throw new EOFException("End of chezy-lidar process InputStream");
+                        }
                         handleLine(line);
                     }
                 } catch (IOException e) {

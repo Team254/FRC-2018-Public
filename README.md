@@ -1,6 +1,6 @@
-# FRC-2018-Public
+# FRC 2018
 
-Public release of Team 254's 2018 FRC robot code for Lockdown. Lockdown's code is written in Java and is based off of WPILib's Java control system.
+Team 254's 2018 FRC robot code for Lockdown. Lockdown's code is written in Java and is based off of WPILib's Java control system.
 
 The code is divided into several packages, each responsible for a different aspect of the robot function. This README explains setup instructions, the function of each package, and some of the variable naming conventions used. Additional information about each specific class can be found in that class' Java file.
 
@@ -32,11 +32,11 @@ The code is divided into several packages, each responsible for a different aspe
 
 - Path following with a nonlinear feedback controller and splines
 
-	To control autonomous driving, the robot utilizes a [nonlinear feedback controller](https://github.com/Team254/FRC-2018-Public/blob/master/src/main/java/com/team254/frc2018/planners/DriveMotionPlanner.java#L263) and drives paths constructed of [quintic Hermite splines](src/main/java/com/team254/lib/spline/QuinticHermiteSpline.java).
+	To control autonomous driving, the robot utilizes a [nonlinear feedback controller](src/main/java/com/team254/frc2018/planners/DriveMotionPlanner.java#L263) and drives paths constructed of [quintic Hermite splines](src/main/java/com/team254/lib/spline/QuinticHermiteSpline.java).
 
 - Path generation and visualization via Java app
 
-	[Cheesy Path](cheesy-path), an external Java webapp, allows a user to quickly and easily create and visualize autonomous paths.
+	Cheesy Path, a Java webapp, allows a user to quickly and easily create and visualize autonomous paths. It is located in the [`src/main/webapp`](src/main/webapp) directory and the [com.team254.path](src/main/java/com/team254/path) package.  Run with `./gradlew tomcatRunWar` and open [`http://localhost:8080`](http://localhost:8080). To stop the server, run `./gradlew tomcatStop`.
 
 - Self-test modes for each subsystem
 
@@ -45,6 +45,10 @@ The code is divided into several packages, each responsible for a different aspe
 - Scale detection
 
 	[Cheesy Vision 2.0](dash/CheesyVision2.py) is a Python app that uses OpenCV to track the angle of the scale. This allows us to set our elevator to the right height during autonomous and prevent wasting time by raising it higher than necessary.
+
+- Lidar Processing
+
+	Even though this was not used on the final iteration of our robot code, we are still releasing our lidar processing code. This consisted of ICP algorithms to detect the scale within the points detected and sent by the [Slamtec RPLIDAR A2](http://www.slamtec.com/en/support#rplidar-a2) and can be found in the [`com.team254.frc2018.lidar`](src/main/java/com/team254/frc2018/lidar) package. While we cannot release our actual RPLIDAR driver, one can be built using the [RPLIDAR SDK](https://download.slamtec.com/api/download/rplidar-sdk/1.7.0?lang=netural). The manual for the SDK can be found [here](http://bucket.download.slamtec.com/351a5409ddfba077ad11ec5071e97ba5bf2c5d0a/LR002_SLAMTEC_rplidar_sdk_v1.0_en.pdf). The driver must be able to send data to the roboRIO using a USB to UART bridge.
 
 ## Package Functions
 - com.team254.frc2018
@@ -67,23 +71,31 @@ The code is divided into several packages, each responsible for a different aspe
 	
 	Contains all autonomous modes. Autonomous modes consist of a list of autonomous actions executed in a certain order.
 
-- com.team254.frc2018.auto.controlboard
+- com.team254.frc2018.controlboard
 	
 	Contains all the code for the different control boards. This allows any combination of driver station joysticks, button board, and Xbox Controllers to be used for both driving and operating. These are controlled by booleans in `Constants.java`.
+
+- com.team254.frc2018.lidar
+
+	Contains classes that are used to communicate with the Slamtec RPLIDAR A2 and to store and process points sent by the lidar.
+
+- com.team254.frc2018.lidar.icp
+
+	Contains the algorithms for processing points sent by the lidar.
 	
 - com.team254.frc2018.loops
 
 	Loops are routines that run periodically on the robot, such as calculating robot pose, processing vision feedback, or updating subsystems. All loops implement the `Loop` interface and are handled (started, stopped, added) by the `Looper` class, which runs at 200 Hz.
     The `Robot` class has one main looper, `mEnabledLooper`, that runs all loops when the robot is enabled.
+	
+- com.team254.frc2018.paths
+
+    Contains the generator for all of the trajectories that the robot drives during autonomous period.
 
 - com.team254.frc2018.planners
 
 	Loops are routines that run periodically on the robot, such as calculating robot pose, processing vision feedback, or updating subsystems. All loops implement the `Loop` interface and are handled (started, stopped, added) by the `Looper` class, which runs at 200 Hz.
 	The `Robot` class has one main looper, `mEnabledLooper`, that runs all loops when the robot is enabled.
-	
-- com.team254.frc2018.paths
-
-    Contains the generator for all of the trajectories that the robot drives during autonomous period.
 
 - com.team254.frc2018.statemachines
 
@@ -117,6 +129,10 @@ The code is divided into several packages, each responsible for a different aspe
 - com.team254.lib.trajectory
 
     Contains classes for following and storing trajectories.
+
+- com.team254.lib.trajectory.timing
+
+	Contains classes for fitting trajectories with time profiles.
 
 - com.team254.lib.util
 
