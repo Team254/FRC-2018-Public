@@ -44,7 +44,7 @@ The code is divided into several packages, each responsible for a different aspe
 
 - Scale detection
 
-	[Cheesy Vision 2.0](dash/CheesyVision2.py) is a Python app that uses OpenCV to track the angle of the scale. This allows us to set our elevator to the right height during autonomous and prevent wasting time by raising it higher than necessary.
+	[Cheesy Vision 2.0](dash/CheesyVision2.py) is a Python app that uses OpenCV to track the angle of the scale. The app is meant to be run on the driver station computer and uses an external USB webcam pointed through the driver station glass at the scale. This allows us to set our elevator to the right height during autonomous and prevent wasting time by raising it higher than necessary, which we found was needed to complete a 4 cube auto within the time limit.
 
 - Lidar Processing
 
