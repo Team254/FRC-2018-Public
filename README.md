@@ -48,7 +48,7 @@ The code is divided into several packages, each responsible for a different aspe
 
 - Lidar Processing
 
-	Even though this was not used on the final iteration of our robot code, we are still releasing our lidar processing code. This consisted of ICP algorithms to detect the scale within the points detected and sent by the [Slamtec RPLIDAR A2](http://www.slamtec.com/en/support#rplidar-a2) and can be found in the [`com.team254.frc2018.lidar`](src/main/java/com/team254/frc2018/lidar) package. While we cannot release our actual RPLIDAR driver, one can be built using the [RPLIDAR SDK](https://download.slamtec.com/api/download/rplidar-sdk/1.7.0?lang=netural). The manual for the SDK can be found [here](http://bucket.download.slamtec.com/351a5409ddfba077ad11ec5071e97ba5bf2c5d0a/LR002_SLAMTEC_rplidar_sdk_v1.0_en.pdf). The driver must be able to send data to the roboRIO using a USB to UART bridge.
+	Even though this was not used on the final iteration of our robot code, we are still releasing our lidar processing code. This consisted of ICP algorithms to detect the scale within the points detected and sent by the [Slamtec RPLIDAR A2](http://www.slamtec.com/en/support#rplidar-a2) and can be found in the [`com.team254.frc2018.lidar`](src/main/java/com/team254/frc2018/lidar) package. Our RPLIDAR driver can be found [here](https://github.com/Team254/rplidar_sdk).
 
 ## Package Functions
 - com.team254.frc2018
