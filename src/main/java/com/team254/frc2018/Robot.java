@@ -291,7 +291,7 @@ public class Robot extends IterativeRobot {
         double turn = mControlBoard.getTurn();
 
         try {
-            // When elevator is up, tune sensitivity on tune a little.
+            // When elevator is up, tune sensitivity on turn a little.
             if (mElevator.getInchesOffGround() > Constants.kElevatorLowSensitivityThreshold) {
                 turn *= Constants.kLowSensitivityFactor;
             }
