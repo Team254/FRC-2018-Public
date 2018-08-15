@@ -61,7 +61,7 @@ The code is divided into several packages, each responsible for a different aspe
 	
 - com.team254.frc2018.auto.actions
 
-	Contains all actions used during the autonomous period, which all share a comm on interface, [`Action`](src/main/java/com/team254/frc2018/auto/actions/Action.java) (also in this package). Examples include shooting cubes, driving a trajectory, or moving the elevator. Routines interact with the Subsystems, which interact with the hardware.
+	Contains all actions used during the autonomous period, which all share a common interface, [`Action`](src/main/java/com/team254/frc2018/auto/actions/Action.java) (also in this package). Examples include shooting cubes, driving a trajectory, or moving the elevator. Routines interact with the Subsystems, which interact with the hardware.
 
 - com.team254.frc2018.auto.creators
 
