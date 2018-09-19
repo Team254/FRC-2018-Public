@@ -139,5 +139,5 @@ The code is divided into several packages, each responsible for a different aspe
     A collection of assorted utilities classes used in the robot code. Check each file for more information.
 	
 ## Variable Naming Conventions
-- k*** (i.e. `kDriveWheelTrackWidthInches`): Final constants, especialy those found in the Constants.java file
+- k*** (i.e. `kDriveWheelTrackWidthInches`): Final constants, especially those found in the Constants.java file
 - m*** (i.e. `mIsHighGear`): Private instance variables
