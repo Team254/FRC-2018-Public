@@ -15,11 +15,11 @@ The code is divided into several packages, each responsible for a different aspe
 #### Eclipse
 - Run `./gradlew eclipse`
 - Open Eclipse and go to "File > Open Projects" from "File System..."
-- Set the import source to the `FRC-2018` folder then click finish
+- Set the import source to the `FRC-2018-Public` folder then click finish
 
 #### IntelliJ
 - Run `./gradlew idea`
-- Open the `FRC-2018.ipr` file with IntelliJ
+- Open the `FRC-2018-Public.ipr` file with IntelliJ
 
 ### Building/Deploying to the Robot
 - Run `./gradlew build` to build the code. Use the `--info` flag for more details

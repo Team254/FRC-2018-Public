@@ -234,9 +234,8 @@
             "content": {
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Elevator Error",
-              "_title": "Elevator Error",
-              "Visible time": 3.0,
-              "SmartDashboard/Elevator Error visible": true
+              "_title": "/SmartDashboard/Elevator Error",
+              "Visible time": 3.0
             }
           },
           "6,0": {
@@ -247,9 +246,76 @@
             "content": {
               "_type": "Graph",
               "_source0": "network_table:///SmartDashboard/Wrist Error",
-              "_title": "Wrist Error",
-              "Visible time": 3.0,
-              "SmartDashboard/Wrist Error visible": true
+              "_title": "/SmartDashboard/Wrist Error",
+              "Visible time": 3.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Autonomous Selection",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Starting Position",
+              "_title": "SmartDashboard/Starting Position"
+            }
+          },
+          "0,2": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto mode",
+              "_title": "SmartDashboard/Auto mode"
+            }
+          },
+          "4,2": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/AutoModeSelected",
+              "_title": "SmartDashboard/AutoModeSelected"
+            }
+          },
+          "4,0": {
+            "size": [
+              4,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/StartingPositionSelected",
+              "_title": "/SmartDashboard/StartingPositionSelected"
+            }
+          },
+          "2,5": {
+            "size": [
+              4,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/SwitchScalePositionSelected",
+              "_title": "/SmartDashboard/SwitchScalePositionSelected"
             }
           }
         }
